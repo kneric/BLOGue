@@ -2,7 +2,9 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import axios from 'axios'
+import swal from 'sweetalert'
 
+Vue.prototype.$swal = swal
 Vue.prototype.$axios = axios.create(
   {
     baseURL: 'http://localhost:3000'

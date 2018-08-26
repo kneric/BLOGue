@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
-      <Nav></Nav>
+      <Nav :isLoggedIn="isLoggedIn" @loggedIn="loginCheck"></Nav>
     </div>
     <div style="height:30px"></div>
     <router-view/>
@@ -18,7 +18,23 @@ export default {
   components: {
     Nav,
     Footer
-  }
+  },
+  data () {
+    return {
+      isLoggedIn: null
+    }
+  },
+  methods: {
+    loginCheck (){
+      if (localStorage.getItem('token')){
+        this.isLoggedIn = localStorage.getItem('token')
+        this.$router.push('')
+      }
+    },
+  },
+  mounted (){
+    this.loginCheck()
+  },
 }
 </script>
 
