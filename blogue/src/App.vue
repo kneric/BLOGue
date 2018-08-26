@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
-      <Nav :isLoggedIn="isLoggedIn" @loggedIn="loginCheck"></Nav>
+      <Nav :isLoggedIn="isLoggedIn" @loggedIn="loginCheck" @registered="loginCheck"></Nav>
     </div>
     <div style="height:30px"></div>
     <router-view/>

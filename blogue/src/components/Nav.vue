@@ -17,11 +17,9 @@
             </router-link>
           </ul>
           <ul class="navbar-nav ml-auto">
-            <router-link to="/" v-if="!isLoggedIn">
-            <li class="nav-item">
-              <a class="nav-link" @click="$emit('register')">Register</a>
-            </li>
-            </router-link>
+            <button type="button" class="btn btn-warning nav-item mr-2" data-toggle="modal" data-target="#registerModal" v-if="!isLoggedIn">
+              Register
+            </button>
             <router-link to="/" v-else>
             <li class="nav-item">
               <a class="nav-link">My Articles</a>
@@ -41,18 +39,20 @@
       </div>
     </nav>
     <LoginModal @loggedIn="$emit('loggedIn')"></LoginModal>
+    <RegisterModal @registered="$emit('registered')"></RegisterModal>
   </div>
 </template>
 
 <script>
 import LoginModal from '@/components/LoginModal'
+import RegisterModal from '@/components/RegisterModal'
 export default {
   props: [
     'isLoggedIn'
   ],
   components: {
     LoginModal,
-    
+    RegisterModal
   },
 }
 </script>
