@@ -20,20 +20,20 @@
             <button type="button" class="btn btn-warning nav-item mr-2" data-toggle="modal" data-target="#registerModal" v-if="!isLoggedIn">
               Register
             </button>
-            <router-link to="/" v-else>
+            <router-link to="/my-articles" v-else>
             <li class="nav-item">
               <a class="nav-link">My Articles</a>
             </li>
             </router-link>
-
+            <router-link to="/post" v-if="isLoggedIn">
+            <li class="nav-item">
+              <a class="nav-link">Post Article</a>
+            </li>
+            </router-link>
             <button type="button" class="btn btn-success nav-item" data-toggle="modal" data-target="#loginModal" v-if="!isLoggedIn">
               Login
             </button>
-            <router-link to="/" v-else>
-            <li class="nav-item">
-              <a class="nav-link">Logout</a>
-            </li>
-            </router-link>
+            <button class="btn btn-danger nav-item" @click="logout" v-else>Logout</button>
           </ul>
         </div>
       </div>
@@ -54,6 +54,12 @@ export default {
     LoginModal,
     RegisterModal
   },
+  methods: {
+    logout (){
+      localStorage.removeItem('token')
+      this.$emit('logout')
+    }
+  }
 }
 </script>
 

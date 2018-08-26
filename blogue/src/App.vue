@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
-      <Nav :isLoggedIn="isLoggedIn" @loggedIn="loginCheck" @registered="loginCheck"></Nav>
+      <Nav :isLoggedIn="isLoggedIn" @loggedIn="loginCheck" @registered="loginCheck" @logout="logout"></Nav>
     </div>
     <div style="height:30px"></div>
     <router-view/>
@@ -31,6 +31,10 @@ export default {
         this.$router.push('')
       }
     },
+    logout (){
+      this.isLoggedIn = null
+      this.$router.push('/')
+    }
   },
   mounted (){
     this.loginCheck()
