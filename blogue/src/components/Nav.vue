@@ -9,7 +9,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav">
-          <router-link to="/">
+          <router-link to="/articles">
           <li class="nav-item">
             <a class="nav-link">Articles</a>
           </li>

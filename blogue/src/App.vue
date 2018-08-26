@@ -32,8 +32,4 @@ export default {
   font-weight: bold;
   color: whitesmoke;
 }
-
-#nav a.router-link-exact-active {
-  color: orange;
-}
 </style>
