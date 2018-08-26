@@ -5,7 +5,7 @@
         <img class="card-img-top" :src="article.thumbnail" alt="thumbnail">
         <div class="card-body">
           <h2 class="card-title">{{ article.title }}</h2>
-          <p class="card-text">{{ article.content.substr(0, 70) }} ...</p>
+          <p class="card-text" v-html="article.content"></p>
           <router-link :to="{ name: 'articledetail', params: { id: article._id}}">Read more</router-link>
         </div>
         <div class="card-footer text-muted">

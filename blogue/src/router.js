@@ -22,6 +22,14 @@ export default new Router({
       path: '/my-articles',
       name: 'myarticles',
       component: () => import('./views/MyArticles.vue'),
+      children: [
+        {
+          path: 'edit/:id',
+          name: 'articleedit',
+          component: () => import('./views/ArticleEdit.vue'),
+          props: true
+        }
+      ]
     },
     {
       path: '/articles',

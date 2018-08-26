@@ -17,6 +17,9 @@
             </router-link>
           </ul>
           <ul class="navbar-nav ml-auto">
+            <li class="nav-item" v-if="isLoggedIn">
+              <a class="nav-link">Hello <u>{{name}}</u> !</a>
+            </li>
             <button type="button" class="btn btn-warning nav-item mr-2" data-toggle="modal" data-target="#registerModal" v-if="!isLoggedIn">
               Register
             </button>
@@ -47,6 +50,11 @@
 import LoginModal from '@/components/LoginModal'
 import RegisterModal from '@/components/RegisterModal'
 export default {
+  data (){
+    return {
+      name: ''
+    }
+  },
   props: [
     'isLoggedIn'
   ],
@@ -59,6 +67,9 @@ export default {
       localStorage.removeItem('token')
       this.$emit('logout')
     }
+  },
+  mounted (){
+    this.name = localStorage.getItem('name')
   }
 }
 </script>
