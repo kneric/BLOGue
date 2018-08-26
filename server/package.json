@@ -1,0 +1,36 @@
+{
+  "name": "tdd-tryout",
+  "version": "1.0.0",
+  "description": "first try on TDD",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "dev": "NODE_ENV=dev nodemon app.js",
+    "test": "NODE_ENV=test nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kneric/TDD-tryout.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kneric/TDD-tryout/issues"
+  },
+  "homepage": "https://github.com/kneric/TDD-tryout#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^8.3.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "cors": "^2.8.4",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "mocha": "^5.2.0",
+    "mongoose": "^5.2.9"
+  }
+}
