@@ -1,4 +1,5 @@
 const Article = require('../models/article');
+const CommentModel = require('../models/comment');
 
 const createArticle = (req, res) => {
   const {title, content, thumbnail} = req.body;
@@ -81,11 +82,37 @@ const deleteArticle = (req, res) => {
   })
 }
 
+const addComment = (req, res) => {
+  CommentModel.create({
+    comment: req.body.comment,
+    commenter: req.user._id,
+    article: req.params.id
+  })
+  .then(comment => {
+    res.status(201).json(comment)
+  })
+  .catch (err => {
+    res.status(400).json(err)
+  })
+}
+
+const deleteComment = (req, res) => {
+  CommentModel.findByIdAndRemove(req.params.id)
+  .then( comment => {
+    res.status(200).json(comment)
+  })
+  .catch( err => {
+    res.status(400).json(err)
+  })
+}
+
 module.exports = {
   createArticle,
   allArticle,
   userArticle,
   articleById,
   updateArticle,
-  deleteArticle
+  deleteArticle,
+  addComment,
+  deleteComment
 };

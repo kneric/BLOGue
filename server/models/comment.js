@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const CommentSchema = new Schema({
+const CommentModelSchema = new Schema({
   comment: {
     type: String,
     required: [true, 'please input your comment']
@@ -16,6 +16,6 @@ const CommentSchema = new Schema({
   }
 }, {timestamps:true})
 
-const Comment = mongoose.model('Comment', CommentSchema)
+const CommentModel = mongoose.model('CommentModel', CommentModelSchema)
 
-module.exports = Comment;
+module.exports = CommentModel;

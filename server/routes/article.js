@@ -6,7 +6,9 @@ const {
   userArticle, 
   articleById,
   updateArticle,
-  deleteArticle
+  deleteArticle,
+  addComment,
+  deleteComment
 } = require('../controllers/articleC');
 const auth = require('../middlewares/auth');
 
@@ -17,5 +19,7 @@ router
   .get('/:id', articleById)
   .put('/:id', auth, updateArticle)
   .delete('/:id', auth, deleteArticle)
+  .post('/:id/comment', auth, addComment)
+  .delete('/:id/comment', auth, deleteComment)
 
 module.exports = router
