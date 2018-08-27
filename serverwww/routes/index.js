@@ -4,7 +4,7 @@ const {signin, signup} = require('../controllers/indexC');
 
 router
   .get('/', (req, res) => {
-    res.status(200).send('this is home')
+    res.render('index', { title: 'Express' });
   })
   .post('/signup', signup)
   .post('/signin', signin)
