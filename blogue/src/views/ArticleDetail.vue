@@ -50,19 +50,24 @@
         <div class="card-body">
           <form>
             <div class="form-group">
-              <textarea class="form-control" rows="3"></textarea>
+              <wysiwyg v-model="postComment" />
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button @click="addComment(id)" class="btn btn-primary">Submit</button>
           </form>
         </div>
       </div>
 
-      <!-- Single Comment -->
-      <div class="media mb-4">
-        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-        <div class="media-body">
-          <h5 class="mt-0">Commenter Name</h5>
-          Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+      <!-- Comments -->
+      <div v-for="(comment, index) in article.comments" :key="index">
+        <div class="media mb-4">
+          <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+          <div class="media-body">
+            <h5 class="mt-0">{{ comment.name }} says:</h5>
+            <p v-html="comment.comment"></p>
+            <button type="button" class="btn btn-danger" v-if="comment.name == username || article.author.name == username" @click="deleteComment(id, comment._id)">
+              Delete
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -77,10 +82,46 @@ export default {
   data () {
     return {
       article: {},
-      username: ''
+      username: '',
+      postComment: '',
+      comments: []
     }
   },
   methods: {
+    addComment (id){
+      this.$axios({
+        method: 'post',
+        url: `/article/${id}/comment`,
+        headers: {'token': localStorage.getItem('token')},
+        data: {
+          name: this.username,
+          comment: this.postComment
+        }
+      })
+        .then(({data}) => {
+          this.$router.replace('/articles')
+        })
+        .catch(err => {
+          this.$swal(JSON.stringify(err.response.data.message))
+        })
+    },
+    deleteComment (articleId, commentId) {
+      console.log('COM', commentId);
+      this.$axios({
+        method: 'delete',
+        url: `/article/${articleId}/comment`,
+        headers: {
+          'token': localStorage.getItem('token'),
+          'commentId': commentId
+          },
+      })
+        .then(({data}) => {
+          this.$router.replace('/my-articles')
+        })
+        .catch(err => {
+          this.$swal(JSON.stringify(err.response.data.message))
+        })
+    },
     getArtcileById (id) {
       this.$axios.get('/article/' + id)
         .then(({data})=> {
@@ -97,7 +138,7 @@ export default {
         headers: {'token': localStorage.getItem('token')},
       })
         .then(({data}) => {
-          this.$router.push('/my-articles')
+          this.$router.replace('/my-articles')
         })
         .catch(err => {
           this.$swal(JSON.stringify(err.response.data.message))
@@ -126,4 +167,5 @@ export default {
       padding-top: 56px;
     }
   }
+  @import "~vue-wysiwyg/dist/vueWysiwyg.css"
 </style>

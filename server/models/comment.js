@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const CommentModelSchema = new Schema({
+  name: {
+    type: String,
+    required: [true, 'please input your name']
+  },
   comment: {
     type: String,
     required: [true, 'please input your comment']
