@@ -19,7 +19,7 @@ router
   .get('/:id', articleById)
   .put('/:id', auth, updateArticle)
   .delete('/:id', auth, deleteArticle)
-  .post('/:id/comment', auth, addComment)
-  .delete('/:id/comment', auth, deleteComment)
+  .post('/:id/comment',  addComment)
+  .delete('/:id/comment',  deleteComment)
 
 module.exports = router

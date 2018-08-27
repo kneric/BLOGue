@@ -85,11 +85,15 @@ const deleteArticle = (req, res) => {
 const addComment = (req, res) => {
   CommentModel.create({
     comment: req.body.comment,
-    commenter: req.user._id,
+    // commenter: req.user._id,
+    commenter: '5b82e597a24a0556fa03cf41',
     article: req.params.id
   })
   .then(comment => {
-    res.status(201).json(comment)
+    return Article.findByIdAndUpdate(req.params.id, {$push: {comments: comment._id}})
+    .then(article => {
+      res.status(201).json({article, comment})
+    })
   })
   .catch (err => {
     res.status(400).json(err)
@@ -97,9 +101,12 @@ const addComment = (req, res) => {
 }
 
 const deleteComment = (req, res) => {
-  CommentModel.findByIdAndRemove(req.params.id)
-  .then( comment => {
-    res.status(200).json(comment)
+  Article.findByIdAndUpdate(req.params.id, {$pull: {comments: req.headers.comment}})
+  .then( article => {
+    return CommentModel.findByIdAndRemove(req.headers.comment)
+    .then(comment => {
+      res.status(200).json({comment, article})
+    })
   })
   .catch( err => {
     res.status(400).json(err)
