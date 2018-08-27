@@ -9,7 +9,7 @@
           </div>
         </div>
         <div class="col-md-9">
-          <router-view :articles="articles"></router-view>
+          <router-view></router-view>
         </div>
       </div>
     </div>

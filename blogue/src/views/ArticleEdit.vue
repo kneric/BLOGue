@@ -16,7 +16,7 @@
         <div class="form-group">
           <wysiwyg v-model="editContent"/>
         </div>
-        <button class="btn-primary" @click="updateArticle(id)">Edit!</button>
+        <button class="btn-primary" @click="updateArticle()">Edit!</button>
       </div>
     </div>
   </div>
@@ -36,8 +36,8 @@ export default {
     }
   },
   methods: {
-    getArtcileById (id) {
-      this.$axios.get('/article/' + id)
+    getArtcileById () {
+      this.$axios.get('/article/' + this.id)
         .then(({data})=> {
           this.editTitle = data.title,
           this.editContent = data.content,
@@ -47,10 +47,10 @@ export default {
           console.log(err);
         })
     },
-    updateArticle (id) {
+    updateArticle () {
       this.$axios({
         method: 'put',
-        url: '/article/' +id,
+        url: '/article/' + this.id,
         headers: {'token': localStorage.getItem('token')},
         data: {
           title: this.editTitle,

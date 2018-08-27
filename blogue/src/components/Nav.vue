@@ -65,6 +65,7 @@ export default {
   methods: {
     logout (){
       localStorage.removeItem('token')
+      localStorage.removeItem('name')
       this.$emit('logout')
     }
   },

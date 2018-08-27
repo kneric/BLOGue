@@ -5,12 +5,12 @@
       <!-- Author -->
         by:
       <p class="lead">
-        <strong>{{ article.author.name }}</strong>
+        <strong>{{ authorName }}</strong>
       </p>
       <hr>
 
       <!-- Date/Time -->
-      <p>Posted on {{ article.createdAt.substr(0, 10) }}</p>
+      <p>Posted on {{ createdAt }}</p>
       <hr>
 
       <!-- Preview Image -->
@@ -20,8 +20,8 @@
       <!-- Post Content -->
       <p v-html="article.content"></p>
       <br>
-      <router-link :to="{ name: 'articleedit', params: { id: id}}" v-if="article.author.name == username"><button class="btn btn-warning"> Edit </button></router-link>
-      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" v-if="article.author.name == username">
+      <router-link :to="{ name: 'articleedit', params: { id: id}}" v-if="authorName == username"><button class="btn btn-warning"> Edit </button></router-link>
+      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" v-if="authorName == username">
         Delete
       </button>
       <hr>
@@ -38,21 +38,21 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-warning" data-dismiss="modal">cancel</button>
-              <button type="button" class="btn btn-danger" data-dismiss="modal" @click="deleteArticle(id)">Delete</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal" @click="deleteArticle()">Delete</button>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Comments Form -->
-      <div class="card my-4">
+      <div class="card my-4" v-if="username">
         <h5 class="card-header">Leave a Comment:</h5>
         <div class="card-body">
           <form>
             <div class="form-group">
               <wysiwyg v-model="postComment" />
             </div>
-            <button @click="addComment(id)" class="btn btn-primary">Submit</button>
+            <button @click="addComment()" class="btn btn-primary">Submit</button>
           </form>
         </div>
       </div>
@@ -64,7 +64,7 @@
           <div class="media-body">
             <h5 class="mt-0">{{ comment.name }} says:</h5>
             <p v-html="comment.comment"></p>
-            <button type="button" class="btn btn-danger" v-if="comment.name == username || article.author.name == username" @click="deleteComment(id, comment._id)">
+            <button type="button" class="btn btn-danger" v-if="comment.name == username || authorName == username" @click="deleteComment(comment._id)">
               Delete
             </button>
           </div>
@@ -82,16 +82,19 @@ export default {
   data () {
     return {
       article: {},
-      username: '',
+      authorName: '',
+      username: null,
       postComment: '',
-      comments: []
+      comments: [],
+      createdAt : '',
+      token: ''
     }
   },
   methods: {
-    addComment (id){
+    addComment (){
       this.$axios({
         method: 'post',
-        url: `/article/${id}/comment`,
+        url: `/article/${this.id}/comment`,
         headers: {'token': localStorage.getItem('token')},
         data: {
           name: this.username,
@@ -99,43 +102,44 @@ export default {
         }
       })
         .then(({data}) => {
-          this.$router.replace('/articles')
+          this.getArtcileById(this.id)
         })
         .catch(err => {
           this.$swal(JSON.stringify(err.response.data.message))
         })
     },
-    deleteComment (articleId, commentId) {
-      console.log('COM', commentId);
+    deleteComment (commentId) {
       this.$axios({
         method: 'delete',
-        url: `/article/${articleId}/comment`,
+        url: `/article/${this.id}/comment`,
         headers: {
           'token': localStorage.getItem('token'),
           'commentId': commentId
           },
       })
         .then(({data}) => {
-          this.$router.replace('/my-articles')
+          this.getArtcileById(this.id)
         })
         .catch(err => {
-          this.$swal(JSON.stringify(err.response.data.message))
+          this.$swal(JSON.stringify(err.data.message))
         })
     },
-    getArtcileById (id) {
-      this.$axios.get('/article/' + id)
+    getArtcileById () {
+      this.$axios.get('/article/' + this.id)
         .then(({data})=> {
           this.article = data;
+          this.authorName = data.author.name
+          this.createdAt = data.createdAt.substr(0, 10)
         })
         .catch(err => {
           console.log(err);
         })
     },
-    deleteArticle (id) {
+    deleteArticle () {
       this.$axios({
         method: 'delete',
-        url: '/article/' +id,
-        headers: {'token': localStorage.getItem('token')},
+        url: '/article/' + this.id,
+        headers: {'token': this.token},
       })
         .then(({data}) => {
           this.$router.replace('/my-articles')
@@ -148,11 +152,12 @@ export default {
   mounted() {
     this.getArtcileById(this.id)
     this.username = localStorage.getItem('name')
+    this.token = localStorage.getItem('token')
   },
   watch: {
     id: function () {
       this.getArtcileById(this.id)
-    }
+    },
   }
 }
 </script>
