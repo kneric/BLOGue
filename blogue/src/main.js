@@ -15,7 +15,7 @@ Vue.prototype.$swal = swal
 Vue.prototype.$wysiwyg = wysiwyg
 Vue.prototype.$axios = axios.create(
   {
-    baseURL: 'http://localhost:3000'
+    baseURL: 'https://35.240.163.48/'
   }
 )
 
