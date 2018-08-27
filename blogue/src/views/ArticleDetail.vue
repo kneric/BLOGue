@@ -103,6 +103,7 @@ export default {
       })
         .then(({data}) => {
           this.getArtcileById(this.id)
+          this.postComment = ''
         })
         .catch(err => {
           this.$swal(JSON.stringify(err.response.data.message))
@@ -142,7 +143,7 @@ export default {
         headers: {'token': this.token},
       })
         .then(({data}) => {
-          this.$router.replace('/my-articles')
+          this.getArtcileById(this.id)
         })
         .catch(err => {
           this.$swal(JSON.stringify(err.response.data.message))

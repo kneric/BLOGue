@@ -51,7 +51,6 @@ export default {
         .then(({data}) => {
           localStorage.setItem('token', data.token)
           localStorage.setItem('name', this.registerName)
-          this.$router.push('articles')
           this.$emit('registered')
         })
         .catch(err => {

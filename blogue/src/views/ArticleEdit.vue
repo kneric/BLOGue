@@ -59,7 +59,7 @@ export default {
         }
       })
         .then(({data}) => {
-          this.$router.push('/articles/' + this.id)
+          this.getArtcileById(this.id)
         })
         .catch(err => {
           this.$swal(JSON.stringify(err.response.data.message))

@@ -46,7 +46,6 @@ export default {
         }
       })
         .then(({data}) => {
-          this.$router.push('/my-articles')
         })
         .catch(err => {
           this.$swal(JSON.stringify(err.response.data.message))

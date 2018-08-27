@@ -37,7 +37,7 @@ export default {
           this.articles = data;
         })
         .catch(err => {
-          console.log(err);
+          this.$swal(JSON.stringify(err.data.message))
         })
     }
   },
